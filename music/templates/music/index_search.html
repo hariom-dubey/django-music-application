@@ -1,0 +1,36 @@
+{% extends 'music/CommonNav.html' %}
+
+{% block title %}Albums{% endblock %}
+
+{% block internal-css %}
+	.well img{
+		height: 320px;
+		width: 100%;
+		border-radius: 3px;
+	}
+{% endblock %}
+
+{% block active-album %}class = "active"{% endblock %}
+
+{% block search_action %}{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="page-header">
+			<h2>Albums</h2>
+		</div>
+		<div class="row">
+          <div class="col-sm-4">
+            <div class="well well-sm">
+                <img src="{{ album.album_logo.url }}">
+                <h3>{{ album.album_title }}</h3>
+                <h4>{{ album.artist }}</h4>
+                <a href="{% url 'music:details' album.id %}" class="btn btn-primary" role="button">View Details</a>
+                <a href="{% url 'music:album-delete' album.id %}" class="btn btn-default" role="button"><i class="fa fa-trash"></i></a>
+                <a href="{% url 'music:album_favorite' album.id %}" class="btn btn-default" {% if album.is_favorite %} style="color:red;" {% endif %} role="button"><i class="fa fa-star"></i></a>
+            </div>
+          </div>
+		</div>
+		<h3>{{ error_message }}</h3>
+	</div>
+{% endblock %}

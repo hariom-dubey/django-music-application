@@ -1,0 +1,108 @@
+{% extends 'music/CommonNav.html' %}
+
+{% block title %}Songs{% endblock %}
+
+{% block internal-css %}
+	    /* align center model */
+    .modal {
+  		text-align: center;
+  		padding: 0!important;
+	}
+	.modal:before {
+  		content: '';
+  		display: inline-block;
+  		height: 100%;
+  		vertical-align: middle;
+  		margin-right: -4px;
+	}
+	.modal-dialog {
+  		display: inline-block;
+  		text-align: left;
+  		vertical-align: middle;
+	}
+	/* model ends */
+	.ad-sng{
+		margin-right: 15px;
+		padding-top:0px;
+	}
+{% endblock %}
+
+{% block active-album %}{% endblock %}
+
+{% block active-song %}class = "active"{% endblock %}
+
+
+
+{% block script %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+            <div class="well well-sm" style="margin-top: 20px;">
+                <h3>All Songs</h3>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Audio File</th>
+                          <th>Favorite</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for song in all_songs %}
+                        <tr>
+                          <td>{{ song.song_title }}.{{ song.file_type }}</td>
+                          <td><a href="#" class="btn btn-primary btn-sm" role="button" data-toggle="modal" data-target="#myModal_{{ forloop.counter }}">&nbsp<i class="fa fa-play"></i>&nbsp</a></td>
+                           <td><a href="{% url 'music:song_page_fav' song.id %}" class="btn btn-default btn-sm" {% if song.is_favorite %} style="color:red;" {% endif %} role="button">&nbsp<i class="fa fa-star"></i>&nbsp</a></td>
+                           <td><a href="{% url 'music:song_page_del' song.id %}" class="btn btn-default btn-sm" role="button">&nbsp<i class="fa fa-trash"></i>&nbsp</a></td>
+                            <div class="modal fade" id="myModal_{{ forloop.counter }}" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                  <div class="modal-content">
+                                    <div class="modal-body">
+                                        <center>
+                                      <audio controls style="outline: none;">
+                                        <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+                                      </audio>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </tr>
+                      {% endfor %}
+                      {% if song %}
+                      <tr>
+                          <td>{{ song.song_title }}.{{ song.file_type }}</td>
+                          <td><a href="#" class="btn btn-primary btn-sm" role="button" data-toggle="modal" data-target="#myModalspecific">&nbsp<i class="fa fa-play"></i>&nbsp</a></td>
+                           <td><a href="{% url 'music:song_page_fav' song.id %}" class="btn btn-default btn-sm" {% if song.is_favorite %} style="color:red;" {% endif %} role="button">&nbsp<i class="fa fa-star"></i>&nbsp</a></td>
+                           <td><a href="{% url 'music:song_page_del' song.id %}" class="btn btn-default btn-sm" role="button">&nbsp<i class="fa fa-trash"></i>&nbsp</a></td>
+                            <div class="modal fade" id="myModalspecific" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                  <div class="modal-content">
+                                    <div class="modal-body">
+                                        <center>
+                                      <audio controls style="outline: none;">
+                                        <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+                                      </audio>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </tr>
+                      {% endif %}
+                      </tbody>
+                    </table>
+                </div>
+          </div>
+        </div>
+          <a href="{% url 'music:song-create' %}" class="btn btn-link pull-right ad-sng" role="button" style="text-decoration: none;"><i class="fa fa-plus"></i>&nbsp&nbspAdd Song</a>
+      </div>
+        <h4 class="text-muted text-center">{{ msg1 }}</h4>
+        <p class="text-muted text-center">{{ msg2 }}</p>
+    </div>
+{% endblock %}

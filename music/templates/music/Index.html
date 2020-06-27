@@ -1,0 +1,119 @@
+{% extends 'music/CommonNav.html' %}
+
+{% block title %}Albums{% endblock %}
+
+{% block internal-css %}
+	.well img{
+		height: 320px;
+		width: 100%;
+		border-radius: 3px;
+	}
+		.modal-dialog {
+		  height: 80% !important;
+		  padding-top:10%;
+		}
+
+		.modal-content {
+		  height: 100% !important;
+		  overflow:visible;
+		}
+
+		.modal-body {
+		  height: 80%;
+		  overflow: auto;
+		}
+{% endblock %}
+
+{% block active-album %}class = "active"{% endblock %}
+
+{% block search_action %}{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="page-header">
+			<h2>Albums</h2>
+		</div>
+		<div class="row">
+			{% for album in albums %}
+			  <div class="col-sm-4">
+				<div class="well well-sm">
+					<img src="{{ album.album_logo.url }}">
+					<h3>{{ album.album_title }}</h3>
+					<h4>{{ album.artist }}</h4>
+					<a href="{% url 'music:details' album.id %}" class="btn btn-primary" role="button">View Details</a>
+					<a href="{% url 'music:album-delete' album.id %}" class="btn btn-default" role="button"><i class="fa fa-trash"></i></a>
+					<a href="{% url 'music:album_favorite' album.id %}" class="btn btn-default" {% if album.is_favorite %} style="color:red;" {% endif %} role="button"><i class="fa fa-star"></i></a>
+				</div>
+			  </div>
+			{% endfor %}
+			{% if album %}
+				<div class="col-sm-4">
+					<div class="well well-sm">
+						<img src="{{ album.album_logo.url }}">
+						<h3>{{ album.album_title }}</h3>
+						<h4>{{ album.artist }}</h4>
+						<a href="{% url 'music:details' album.id %}" class="btn btn-primary" role="button">View Details</a>
+						<a href="{% url 'music:album-delete' album.id %}" class="btn btn-default" role="button"><i class="fa fa-trash"></i></a>
+						<a href="{% url 'music:album_favorite' album.id %}" class="btn btn-default" {% if album.is_favorite %} style="color:red;" {% endif %} role="button"><i class="fa fa-star"></i></a>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+		<h4 class="text-muted text-center">{{ msg1 }}</h4>
+        <p class="text-muted text-center">{{ msg2 }}</p>
+		<br>
+		<button type="button" class="btn btn-link btn-lg pull-right" data-toggle="modal" data-target="#coronaModal" style="text-decoration: none; outline:none; margin-left: 20px;">Corona Updates</button>
+		<!-- Modal -->
+		<div id="coronaModal" class="modal fade" role="dialog">
+		  <div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">Corona Cases</h3>
+			  </div>
+				<div class="modal-body">
+						<h4>covid-19 INDIA:</h4>
+						<p>Total Confirmed &nbsp<span class="badge">{{ india_confirmed }}</span></p>
+						<p>Cured / Discharged &nbsp<span class="badge" style="background-color: #5cb85c;">{{ india_recover }}</span></p>
+						<p>Active Cases &nbsp<span class="badge" style="background-color: #f0ad4e;">{{ india_active }}</span></p>
+						<p>Deaths &nbsp<span class="badge" style="background-color: #d9534f;">{{ india_deaths }}</span></p>
+						<div class="progress">
+						  <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ india_per_recover }}%">
+							{{ india_recover }}
+						  </div>
+						  <div class="progress-bar progress-bar-warning" role="progressbar" style="width:{{ india_per_active }}%">
+							{{ india_active }}
+						  </div>
+						  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:{{ india_per_deaths }}%">
+							{{ india_deaths }}
+						  </div>
+						</div>
+						<hr>
+						<h4>covid-19 MUMBAI:</h4>
+						<p>Total Confirmed &nbsp<span class="badge" style="background-color: #5cb85c;">{{ mumbai_confirmed }}</span></p>
+						<p>Mumbai contribution in India </p>
+						<div class="progress">
+						  <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ mum_per_india }}%">
+							{{ mumbai_confirmed }}
+						  </div>
+						</div>
+						<hr>
+						<h4>covid-19 MAHARASHTRA:</h4>
+						<p>Total Confirmed &nbsp<span class="badge">{{ maha_confirmed }}</span></p>
+						<p>Cured / Discharged &nbsp<span class="badge" style="background-color: #5cb85c;">{{ maha_recovered }}</span></p>
+						<p>Maharashtra recovered patients from confirmed cases </p>
+						<div class="progress">
+						  <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{ maha_per_recover }}%">
+							{{ maha_recovered }}
+						  </div>
+						</div>
+					  </div>
+			</div>
+
+		  </div>
+		</div>
+
+	</div>
+{% endblock %}

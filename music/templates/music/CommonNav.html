@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<!-- font awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- own style -->
+	<style type="text/css">
+        {% block internal-css %}{% endblock %}
+	</style>
+    <script type="text/javascript">
+        {% block script %}{% endblock %}
+    </script>
+	</head>
+<body {% block load %}{% endblock %}>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+    	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" style="font-family: lucida handwriting;" href="{% url 'music:index' %}">Listen</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li {% block active-album %}{% endblock %}><a href="{% url 'music:index' %}"><i class="fa fa-dot-circle-o"></i>&nbsp&nbspAlbum</a></li>
+        <li {% block active-song %}{% endblock %}><a href="{% url 'music:songs' %}"><i class="fa fa-music"></i>&nbsp&nbspSongs</a></li>
+      </ul>
+      <form class="navbar-form navbar-left" action="{% block search_action %}{% endblock %}" method="post">
+          {% csrf_token %}
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" name="search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li {% block active-add_album %}{% endblock %}><a href="{% url 'music:add-album' %}"><i class="fa fa-plus"></i>&nbsp&nbspAdd Album</a></li>
+        <li class="disabled"><a><i class="fa fa-power-off"></i>&nbsp&nbspLogout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% block body %}
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends 'music/CommonNav.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block internal-css %}
+    .col-sm-12 label{
+      margin-top: -3px;
+    }
+    input[type=file]{
+      margin-top:15px;
+    }
+    @media(max-width: 767px){
+      .col-sm-12 label, input[type=file]{
+      margin-top: 0px;
+    }
+    }
+{% endblock %}
+
+{% block active-album %}{% endblock %}
+
+{% block active-song %}{% endblock %}
+
+{% block active-add_album %}{% endblock %}
+
+{% block load %}onload="class_change()"{% endblock %}
+
+{% block script %}
+    function class_change(){
+        for(i=0; i<3; i++){
+            document.querySelectorAll("label")[i].className = "control-label col-sm-2";
+        }
+        for(i=2; i<5; i++){
+            document.querySelectorAll("input")[i].className = "form-control";
+        }
+    }
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-12">
+          <div class="well well-sm">
+            <h3>Add a New User</h3>
+            <form class="form-horizontal" action="" method="post">
+                {% csrf_token %}
+                {% include 'music/form-template.html' %}
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

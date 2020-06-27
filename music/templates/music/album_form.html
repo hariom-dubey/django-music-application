@@ -1,0 +1,76 @@
+{% extends 'music/CommonNav.html' %}
+
+{% block title %}Add Album{% endblock %}
+
+{% block internal-css %}
+    .col-sm-7 label{
+      margin-top: -3px;
+    }
+    input[type=file]{
+      margin-top:15px;
+    }
+    .rgt-own{
+      padding: 10px 15px 10px 15px;
+    }
+    @media(max-width: 767px){
+      .col-sm-7 label, input[type=file]{
+      margin-top: 0px;
+    }
+    }
+{% endblock %}
+
+{% block active-album %}{% endblock %}
+
+{% block active-song %}{% endblock %}
+
+{% block active-add_album %}class = "active"{% endblock %}
+
+{% block load %}onload="class_change()"{% endblock %}
+
+{% block script %}
+    function class_change(){
+        for(i=0; i<4; i++){
+            document.querySelectorAll("label")[i].className = "control-label col-sm-2";
+        }
+        for(i=3; i<6; i++){
+            document.querySelectorAll("input")[i].className = "form-control";
+        }
+        document.querySelectorAll("input")[6].style.outline = "none";
+    }
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-7">
+          <div class="well well-sm">
+            <h3>Add a New Album</h3>
+            <form class="form-horizontal" action="" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                {% include 'music/form-template.html' %}
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-sm-5">
+          <div class="well well-sm rgt-own">
+            <h3>What is Viberr?</h3>
+            <p>Viberr is an app that allows you to upload and store all of your music on cloud.</p>
+            <h3>How do I add music?</h3>
+            <p>First, create a new album by filling out the form on this page. Once an album is created you will be able to add upload songs.</p>
+            <h3>What are some Album logo best practices?</h3>
+            <ul>
+                <li>Have a resolution of 512*512.</li>
+                <li>Use common image formats such as JPG, GIF, PNG.</li>
+                <li>Remain under the 2MB limit.</li>
+                <li>Square image look best.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
